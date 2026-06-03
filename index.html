@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A 股投资看板 — 2026年6月3日 午盘</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ====== 顶部导航 ====== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="logo">📊 A 股投资看板</div>
+        <span class="header-date">2026年6月3日（周三）午盘</span>
+      </div>
+      <div class="header-right">
+        <span class="badge badge-live">🟢 盘中数据</span>
+        <span class="header-source">数据源：腾讯API / 财联社 / 东方财富 / 新浪财经 / 同花顺</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== 功能导航 ====== -->
+  <nav class="section-nav" id="sectionNav">
+    <a href="#dashboard" class="nav-link active" data-section="dashboard">📊 大盘看板</a>
+    <a href="#news" class="nav-link" data-section="news">📰 海内外资讯</a>
+    <a href="#portfolio" class="nav-link" data-section="portfolio">💰 持股收益</a>
+    <a href="#analysis" class="nav-link" data-section="analysis">📈 投资分析</a>
+  </nav>
+
+  <!-- ====== 主容器 ====== -->
+  <main class="container" id="dashboard">
+
+    <!-- ====== 🏛️ 大盘概况：核心指数卡片矩阵 ====== -->
+    <section class="section-dash">
+      <div class="dash-header">
+        <div class="dash-header-left">
+          <span class="dash-section-icon">📈</span>
+          <h2 class="dash-section-title">核心指数</h2>
+          <span class="dash-header-badge">盘中</span>
+        </div>
+        <div class="dash-header-right">
+          <span class="dash-header-time">⏱ 11:07</span>
+          <span class="dash-header-source">腾讯API · 同花顺</span>
+        </div>
+      </div>
+
+      <!-- 5列指数微悬浮卡片 -->
+      <div class="index-matrix" id="indexMatrix">
+        <div class="index-gloss" data-movement="up">
+          <div class="gloss-label">上证指数</div>
+          <div class="gloss-price up">4,097.62</div>
+          <div class="gloss-change up">
+            <span class="gloss-points">+22.52</span>
+            <span class="gloss-pct">+0.55%</span>
+          </div>
+          <div class="gloss-shimmer"></div>
+        </div>
+        <div class="index-gloss" data-movement="up">
+          <div class="gloss-label">深证成指</div>
+          <div class="gloss-price up">15,948.19</div>
+          <div class="gloss-change up">
+            <span class="gloss-points">+357.06</span>
+            <span class="gloss-pct">+2.29%</span>
+          </div>
+          <div class="gloss-shimmer"></div>
+        </div>
+        <div class="index-gloss" data-movement="up">
+          <div class="gloss-label">创业板指</div>
+          <div class="gloss-price up">4,205.55</div>
+          <div class="gloss-change up">
+            <span class="gloss-points">+149.68</span>
+            <span class="gloss-pct">+3.69%</span>
+          </div>
+          <div class="gloss-shimmer"></div>
+        </div>
+        <div class="index-gloss gloss-hot" data-movement="up">
+          <div class="gloss-label">科创50 <span class="gloss-hot-tag">🔥 领涨</span></div>
+          <div class="gloss-price up">1,763.78</div>
+          <div class="gloss-change up">
+            <span class="gloss-points">+73.22</span>
+            <span class="gloss-pct">+4.33%</span>
+          </div>
+          <div class="gloss-shimmer"></div>
+        </div>
+        <div class="index-gloss" data-movement="up">
+          <div class="gloss-label">上证50</div>
+          <div class="gloss-price up">2,933.05</div>
+          <div class="gloss-change up">
+            <span class="gloss-points">+12.78</span>
+            <span class="gloss-pct">+0.44%</span>
+          </div>
+          <div class="gloss-shimmer"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 📊 大盘总量流动指标 + 🧠 市场情绪（两栏并排） ====== -->
+    <section class="section-dash">
+      <div class="dash-two-col">
+
+        <!-- 左栏：总量指标 -->
+        <div class="dash-left-panel">
+          <div class="dash-sub-header">
+            <span class="dash-section-icon">📊</span>
+            <h3 class="dash-sub-title">大盘总量流动指标</h3>
+          </div>
+          <div class="metric-bar">
+            <div class="metric-cell">
+              <span class="metric-number">1.72<span class="metric-unit">万亿</span></span>
+              <span class="metric-label">两市成交额（半日）</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-cell">
+              <span class="metric-number">3<span class="metric-unit">万亿+</span></span>
+              <span class="metric-label">全天预估</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-cell">
+              <span class="metric-number">2,500<span class="metric-unit">只</span></span>
+              <span class="metric-label">上涨个股</span>
+            </div>
+          </div>
+          <!-- 微辅助信息 -->
+          <div class="metric-footnote">
+            <span>上证 ~7,788亿</span>
+            <span class="metric-dot">·</span>
+            <span>深证 ~9,428亿</span>
+            <span class="metric-dot">·</span>
+            <span>北向资金 待确认</span>
+          </div>
+        </div>
+
+        <!-- 右栏：市场情绪看板 -->
+        <div class="dash-right-panel">
+          <div class="dash-sub-header">
+            <span class="dash-section-icon">🧠</span>
+            <h3 class="dash-sub-title">市场情绪</h3>
+            <span class="dash-sub-badge">🟢 积极</span>
+          </div>
+          <div class="sentiment-list" id="sentimentList">
+            <div class="sentiment-row">
+              <div class="sentiment-left">
+                <span class="sentiment-pill">量能</span>
+                <span class="sentiment-signal signal-on">🟢</span>
+                <span class="sentiment-status">放量</span>
+              </div>
+              <div class="sentiment-right">半日成交近1.7万亿，全天或超3万亿</div>
+            </div>
+            <div class="sentiment-row">
+              <div class="sentiment-left">
+                <span class="sentiment-pill">指数结构</span>
+                <span class="sentiment-signal signal-on">🟢</span>
+                <span class="sentiment-status">健康</span>
+              </div>
+              <div class="sentiment-right">创业板/科创50领涨，成长风格主导</div>
+            </div>
+            <div class="sentiment-row">
+              <div class="sentiment-left">
+                <span class="sentiment-pill">赚钱效应</span>
+                <span class="sentiment-signal signal-on">🟢</span>
+                <span class="sentiment-status">良好</span>
+              </div>
+              <div class="sentiment-right">近2500只个股上涨，科技全面爆发</div>
+            </div>
+            <div class="sentiment-row">
+              <div class="sentiment-left">
+                <span class="sentiment-pill">资金偏好</span>
+                <span class="sentiment-signal signal-on">🟢</span>
+                <span class="sentiment-status">科技</span>
+              </div>
+              <div class="sentiment-right">电子板块主力净流入超109亿</div>
+            </div>
+            <div class="sentiment-row">
+              <div class="sentiment-left">
+                <span class="sentiment-pill">情绪热度</span>
+                <span class="sentiment-signal signal-on">🟢</span>
+                <span class="sentiment-status">积极</span>
+              </div>
+              <div class="sentiment-right">5月新开户同比+78%，新股民加速入场</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====== 持仓赛道分析 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">💼</span> 持仓赛道分析</h2>
+        <span class="section-sub">盘中数据 · 点击卡片展开详情</span>
+      </div>
+      <div class="holding-grid" id="holdingGrid">
+
+        <!-- 有色 -->
+        <div class="holding-card signal-yellow" data-signal="yellow">
+          <div class="holding-header">
+            <span class="holding-tag">🟡 持有</span>
+            <span class="holding-name">有色金属</span>
+          </div>
+          <div class="holding-items">
+            <div class="item">
+              <span class="item-name">紫金矿业</span>
+              <span class="item-code">601899</span>
+              <span class="item-price">31.55</span>
+              <span class="item-chg down">-0.09%</span>
+            </div>
+            <div class="item">
+              <span class="item-name">洛阳钼业</span>
+              <span class="item-code">603993</span>
+              <span class="item-price">19.89</span>
+              <span class="item-chg up">+0.76%</span>
+            </div>
+            <div class="item">
+              <span class="item-name">山金国际</span>
+              <span class="item-code">000975</span>
+              <span class="item-price">23.04</span>
+              <span class="item-chg flat">0.00%</span>
+            </div>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> 欧洲央行：黄金已超越美债成全球最大储备资产</li>
+                <li><span class="green">🟢</span> 中信证券：铜价有望冲击15000美元/吨</li>
+                <li><span class="red">🔴</span> 紫金矿业微跌，与板块整体涨幅背离</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>有色板块受益于大宗商品牛市+全球央行增持黄金。紫金短线回调或是低吸机会，建议持有。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 招商轮船 -->
+        <div class="holding-card signal-red" data-signal="red">
+          <div class="holding-header">
+            <span class="holding-tag">🔴 观望</span>
+            <span class="holding-name">招商轮船</span>
+            <span class="holding-code">601872</span>
+          </div>
+          <div class="holding-items">
+            <div class="item">
+              <span class="item-name">招商轮船</span>
+              <span class="item-price">15.24</span>
+              <span class="item-chg down">-1.61%</span>
+            </div>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="red">🔴</span> 中东局势升级！美军空袭，伊朗反击</li>
+                <li><span class="yellow">🟡</span> 冲突双刃剑：或推升运价</li>
+                <li><span class="red">🔴</span> 放量下挫（振幅4.07%），资金分歧</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>密切观望，不急于加仓。如已获利可考虑减仓锁定部分利润。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 宝丰能源 -->
+        <div class="holding-card signal-red" data-signal="red">
+          <div class="holding-header">
+            <span class="holding-tag">🔴 持有观望</span>
+            <span class="holding-name">宝丰能源</span>
+            <span class="holding-code">600989</span>
+          </div>
+          <div class="holding-items">
+            <div class="item">
+              <span class="item-name">宝丰能源</span>
+              <span class="item-price">24.35</span>
+              <span class="item-chg down">-0.81%</span>
+            </div>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="yellow">🟡</span> 原油高位（94.78美元），煤制烯烃成本优势显现</li>
+                <li><span class="red">🔴</span> 资金从能源板块流出，电子吸金效应明显</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>高油价对煤化工有利，但短期市场焦点在科技成长。建议持有观望，等待中报验证。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 券商ETF -->
+        <div class="holding-card signal-green" data-signal="green">
+          <div class="holding-header">
+            <span class="holding-tag">🟢 持有</span>
+            <span class="holding-name">券商ETF 银华</span>
+            <span class="holding-code">159842</span>
+          </div>
+          <div class="holding-items">
+            <div class="item">
+              <span class="item-name">券商ETF</span>
+              <span class="item-price">0.990</span>
+              <span class="item-chg up">+0.41%</span>
+            </div>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> 5月新开户276.53万户，同比+78%</li>
+                <li><span class="green">🟢</span> 半日近1.7万亿成交，佣金收入预期提升</li>
+                <li><span class="green">🟢</span> 电子行业成交额连续15个月霸榜</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>继续持有，券商是确定性较高的弹性品种。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 中国西电 -->
+        <div class="holding-card signal-red" data-signal="red">
+          <div class="holding-header">
+            <span class="holding-tag">🔴 建议减仓</span>
+            <span class="holding-name">中国西电</span>
+            <span class="holding-code">601179</span>
+          </div>
+          <div class="holding-items">
+            <div class="item">
+              <span class="item-name">中国西电</span>
+              <span class="item-price">16.30</span>
+              <span class="item-chg down">-1.45%</span>
+            </div>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="red">🔴</span> 主力资金净流出电网设备板块</li>
+                <li><span class="red">🔴</span> 市场风格偏科技成长，传统基建承压</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>短线承压，建议减仓至3%以下，待企稳后回补。保留底仓（电网投资是国家战略）。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 创新药 -->
+        <div class="holding-card signal-yellow" data-signal="yellow">
+          <div class="holding-header">
+            <span class="holding-tag">🟡 逢低布局</span>
+            <span class="holding-name">创新药</span>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="red">🔴</span> 主力资金净流出医药板块</li>
+                <li><span class="yellow">🟡</span> 港股回A潮：AI与生物医药龙头引领"H to A"</li>
+                <li><span class="green">🟢</span> 6月5日中欧中医药论坛举办</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>长期逻辑（老龄化+出海）不变，建议逢低分批布局创新药龙头。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 航天 -->
+        <div class="holding-card signal-green" data-signal="green">
+          <div class="holding-header">
+            <span class="holding-tag">🟢 关注</span>
+            <span class="holding-name">航天</span>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> 龙芯处理器首次用于长征火箭控制系统</li>
+                <li><span class="green">🟢</span> SpaceX最快6月12日上市，估值1.75万亿美元</li>
+                <li><span class="green">🟢</span> 6月10-14日柏林航空航天展</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>短期催化密集，建议关注。商业航天+军工双轮驱动，板块有望活跃。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 机器人 -->
+        <div class="holding-card signal-green" data-signal="green">
+          <div class="holding-header">
+            <span class="holding-tag">🟢 重点跟踪</span>
+            <span class="holding-name">机器人</span>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> 英伟达加持，宇树科技"闪电"提交IPO注册</li>
+                <li><span class="green">🟢</span> 6月5日中国国际机器人高峰论坛</li>
+                <li><span class="green">🟢</span> 6月27-29日亚洲机器人大会</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>密集催化期，建议重点跟踪。关注与英伟达合作的机器人产业链标的。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI应用 -->
+        <div class="holding-card signal-green" data-signal="green">
+          <div class="holding-header">
+            <span class="holding-tag">🟢 重点关注</span>
+            <span class="holding-name">AI 应用</span>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> OpenAI发布"AI上岗"发布会</li>
+                <li><span class="green">🟢</span> 字节跳动AI Agent 3.0上线</li>
+                <li><span class="green">🟢</span> 微软全面押注智能体时代</li>
+                <li><span class="green">🟢</span> 特朗普签署人工智能行政令</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>今日催化最强，三巨头同日发布AI产品，AI Agent商业化加速落地。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 核聚变/核能 -->
+        <div class="holding-card signal-green" data-signal="green">
+          <div class="holding-header">
+            <span class="holding-tag">🟢 逢低配置</span>
+            <span class="holding-name">核聚变/核能</span>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> 美国浓缩铀工厂扩建，AI"抢电"催化核能复苏</li>
+                <li><span class="green">🟢</span> 可控核聚变被列为No.1潜力题材</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>长期战略方向，AI算力耗电为核电带来新增量。建议逢低配置核能ETF或龙头。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 云计算 -->
+        <div class="holding-card signal-green" data-signal="green">
+          <div class="holding-header">
+            <span class="holding-tag">🟢 持续看好</span>
+            <span class="holding-name">云计算</span>
+          </div>
+          <div class="holding-detail">
+            <div class="detail-catalyst">
+              <span class="detail-label">催化因素</span>
+              <ul>
+                <li><span class="green">🟢</span> 腾讯云下调DeepSeek-V4模型价格</li>
+                <li><span class="green">🟢</span> AI算力需求全面爆发，光模块超级景气</li>
+                <li><span class="green">🟢</span> 字节AI Agent 3.0上线，云基础设施需求增加</li>
+              </ul>
+            </div>
+            <div class="detail-advice">
+              <span class="advice-label">建议</span>
+              <p>受益于AI算力需求暴增，持续看好。腾讯云降价推动AI应用普及。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====== 今日热点板块 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">🔥</span> 今日热点板块</h2>
+        <span class="section-sub">涨幅榜</span>
+      </div>
+      <div class="hot-grid" id="hotGrid">
+        <div class="hot-card rank-1">
+          <div class="hot-rank">1</div>
+          <div class="hot-body">
+            <div class="hot-name">半导体</div>
+            <div class="hot-chg">+4.37%</div>
+          </div>
+          <div class="hot-stocks">和林微纳+20% · 源杰科技+18.9%</div>
+        </div>
+        <div class="hot-card rank-2">
+          <div class="hot-rank">2</div>
+          <div class="hot-body">
+            <div class="hot-name">光学光电子</div>
+            <div class="hot-chg">+3.01%</div>
+          </div>
+          <div class="hot-stocks">长信科技+16.99% · 苏大维格+15.07%</div>
+        </div>
+        <div class="hot-card rank-3">
+          <div class="hot-rank">3</div>
+          <div class="hot-body">
+            <div class="hot-name">通信</div>
+            <div class="hot-chg">+2.96%</div>
+          </div>
+          <div class="hot-stocks">长进光子+13.75% · 天孚通信+13.32%</div>
+        </div>
+        <div class="hot-card">
+          <div class="hot-rank">4</div>
+          <div class="hot-body">
+            <div class="hot-name">小金属</div>
+            <div class="hot-chg">+2.95%</div>
+          </div>
+          <div class="hot-stocks">东方锆业+10.01% · 中钨高新+10.00%</div>
+        </div>
+        <div class="hot-card">
+          <div class="hot-rank">5</div>
+          <div class="hot-body">
+            <div class="hot-name">电子</div>
+            <div class="hot-chg">+2.95%</div>
+          </div>
+          <div class="hot-stocks">晶赛科技+28.78% · 迅捷兴+20.01%</div>
+        </div>
+        <div class="hot-card">
+          <div class="hot-rank">6</div>
+          <div class="hot-body">
+            <div class="hot-name">电子化学品</div>
+            <div class="hot-chg">+2.00%</div>
+          </div>
+          <div class="hot-stocks">飞凯材料+13.28% · 华特气体+7.67%</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 资金流向 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">💰</span> 主力资金流向</h2>
+        <span class="section-sub">数据来源：财联社星矿数据</span>
+      </div>
+      <div class="flow-grid">
+        <div class="flow-card flow-in">
+          <div class="flow-title">流入方向</div>
+          <div class="flow-item"><span>电子</span><span class="tag-hot">+109亿 🔥</span></div>
+          <div class="flow-item"><span>通信</span><span>净流入</span></div>
+          <div class="flow-item"><span>半导体</span><span>净流入</span></div>
+        </div>
+        <div class="flow-card flow-out">
+          <div class="flow-title">流出方向</div>
+          <div class="flow-item"><span>电新行业</span><span class="tag-out">净流出</span></div>
+          <div class="flow-item"><span>电网设备</span><span class="tag-out">净流出</span></div>
+          <div class="flow-item"><span>医药</span><span class="tag-out">净流出</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 今日风口 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">💨</span> 今日风口</h2>
+      </div>
+      <div class="wind-grid">
+        <div class="wind-card">
+          <div class="wind-icon">🔥</div>
+          <div class="wind-name">MLCC</div>
+          <div class="wind-desc">高盛：MLCC已成AI服务器物料清单第三大成本项，仅次于GPU和存储芯片</div>
+        </div>
+        <div class="wind-card">
+          <div class="wind-icon">💻</div>
+          <div class="wind-name">AI PC</div>
+          <div class="wind-desc">英伟达GTC Taipei + "A new era of PC"预告</div>
+        </div>
+        <div class="wind-card">
+          <div class="wind-icon">🔥</div>
+          <div class="wind-name">CPO/光通信</div>
+          <div class="wind-desc">黄仁勋"钦点"下一家万亿美元公司，光模块需求加速明朗</div>
+        </div>
+        <div class="wind-card">
+          <div class="wind-icon">📡</div>
+          <div class="wind-name">光纤光缆</div>
+          <div class="wind-desc">全球首条三波段超低损耗多芯光缆线路开通</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 新机会发现 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">💡</span> 新机会发现</h2>
+        <span class="section-sub">未持仓但值得关注的方向</span>
+      </div>
+      <div class="opportunity-grid">
+        <div class="opp-card opp-hot">
+          <div class="opp-header">
+            <span class="opp-badge">🔥 强烈关注</span>
+            <h3>MLCC 产业链</h3>
+          </div>
+          <div class="opp-body">
+            <p>AI服务器MLCC需求量或暴增4倍（来源：东方财富），国产替代空间大。</p>
+            <div class="opp-stocks">
+              <span class="opp-stock-tag">风华高科 +1.87%</span>
+              <span class="opp-stock-tag">三环集团</span>
+              <span class="opp-stock-tag">达利凯普 (涨停)</span>
+            </div>
+          </div>
+        </div>
+        <div class="opp-card opp-hot">
+          <div class="opp-header">
+            <span class="opp-badge">🔥 强烈关注</span>
+            <h3>光通信 / CPO</h3>
+          </div>
+          <div class="opp-body">
+            <p>黄仁勋多次强调光互联是AI算力瓶颈的终极解决方案。中际旭创股价1288元超越茅台。</p>
+            <div class="opp-stocks">
+              <span class="opp-stock-tag">中际旭创 +8%</span>
+              <span class="opp-stock-tag">天孚通信 +13.32%</span>
+              <span class="opp-stock-tag">源杰科技 +18.9%</span>
+            </div>
+          </div>
+        </div>
+        <div class="opp-card">
+          <div class="opp-header">
+            <span class="opp-badge">📡 事件催化</span>
+            <h3>商业航天 (SpaceX供应链)</h3>
+          </div>
+          <div class="opp-body">
+            <p>SpaceX最快6月12日上市，估值1.75万亿美元。A股供应商名单曝光。注意"买预期卖事实"。</p>
+            <div class="opp-timing">⏰ 时间窗口：6月4日路演 → 6月12日挂牌</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 买卖建议 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">🎯</span> 具体买卖建议</h2>
+      </div>
+      <div class="advice-grid">
+        <div class="advice-card advice-buy">
+          <div class="advice-type">买入关注</div>
+          <div class="advice-list">
+            <div class="advice-item">
+              <div class="advice-target">
+                <span class="advice-name">科创50 ETF</span>
+                <span class="advice-tag">588000</span>
+              </div>
+              <div class="advice-reason">科技成长主线，上海推动科创50期货期权上市，增量资金可期</div>
+              <div class="advice-level">仓位建议：5-10%</div>
+              <div class="advice-stop">止损：跌破1700点（-3.6%）</div>
+            </div>
+            <div class="advice-item">
+              <div class="advice-target">
+                <span class="advice-name">风华高科</span>
+                <span class="advice-tag">000636</span>
+              </div>
+              <div class="advice-reason">MLCC是AI服务器新增量方向，高盛研报催化，板块刚启动</div>
+              <div class="advice-level">仓位建议：3-5%</div>
+              <div class="advice-stop">止损：跌破10日均线</div>
+            </div>
+            <div class="advice-item">
+              <div class="advice-target">
+                <span class="advice-name">天孚通信</span>
+                <span class="advice-tag">300394</span>
+              </div>
+              <div class="advice-reason">光通信全面爆发，等待回调至10日/20日均线再介入</div>
+              <div class="advice-level">仓位建议：3-5%</div>
+              <div class="advice-stop">注意：短线涨幅已大，不追高</div>
+            </div>
+          </div>
+        </div>
+        <div class="advice-card advice-sell">
+          <div class="advice-type">卖出/减仓建议</div>
+          <div class="advice-list">
+            <div class="advice-item">
+              <div class="advice-target">
+                <span class="advice-name">中国西电</span>
+                <span class="advice-tag">601179</span>
+              </div>
+              <div class="advice-reason">资金流出电网设备，风格不利传统基建，今日-1.45%</div>
+              <div class="advice-action">建议：减仓至3%以下</div>
+            </div>
+            <div class="advice-item">
+              <div class="advice-target">
+                <span class="advice-name">招商轮船</span>
+                <span class="advice-tag">601872</span>
+              </div>
+              <div class="advice-reason">中东局势骤紧，不确定性大幅上升，今日-1.61%</div>
+              <div class="advice-action">建议：大幅浮盈则减仓50%；刚建仓则观望</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 风险提示 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">⚠️</span> 风险提示</h2>
+      </div>
+      <div class="risk-grid" id="riskGrid">
+        <div class="risk-card high">
+          <span class="risk-icon">⚠️</span>
+          <span class="risk-text">中东冲突升级 — 美军空袭+伊朗反击，影响全球风险偏好和油价</span>
+        </div>
+        <div class="risk-card med">
+          <span class="risk-icon">⚠️</span>
+          <span class="risk-text">SpaceX上市效应 — 6月12日上市，航天板块可能"买预期卖事实"</span>
+        </div>
+        <div class="risk-card med">
+          <span class="risk-icon">⚠️</span>
+          <span class="risk-text">风格切换风险 — 科技股暴涨后估值高位，警惕获利回吐</span>
+        </div>
+        <div class="risk-card med">
+          <span class="risk-icon">⚠️</span>
+          <span class="risk-text">成交量持续性 — 半日近1.7万亿，若午后缩量影响反弹持续性</span>
+        </div>
+        <div class="risk-card med">
+          <span class="risk-icon">⚠️</span>
+          <span class="risk-text">美联储利率决议 — 6月18日FOMC会议，关注降息预期变化</span>
+        </div>
+        <div class="risk-card low">
+          <span class="risk-icon">ℹ️</span>
+          <span class="risk-text">数据待确认 — 北向资金流向、收盘点位、部分ETF净值需收盘后确认</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== 总结 ====== -->
+    <section class="section">
+      <div class="section-header">
+        <h2><span class="icon">📋</span> 总结与核心观点</h2>
+      </div>
+      <div class="summary-card">
+        <div class="summary-point highlight">
+          <span class="summary-icon">1️⃣</span>
+          <div>
+            <strong>市场主线：</strong>科技成长（半导体/光通信/AI应用）全面爆发，创业板+3.69%、科创50+4.33%确认风格偏向成长
+          </div>
+        </div>
+        <div class="summary-point">
+          <span class="summary-icon">2️⃣</span>
+          <div>
+            <strong>持仓应对：</strong>有色（持有） | 招商轮船（⚠️减仓） | 宝丰能源（观望） | 券商ETF（持有） | 中国西电（⚠️减仓） | 创新药/航天/机器人/AI/核聚变/云计算（中长期看好）
+          </div>
+        </div>
+        <div class="summary-point highlight">
+          <span class="summary-icon">3️⃣</span>
+          <div>
+            <strong>最重要新机会：</strong>🔥 MLCC产业链（AI服务器第三大成本项） | 🔥 科创50 ETF（期货期权上市预期）
+          </div>
+        </div>
+        <div class="summary-point">
+          <span class="summary-icon">4️⃣</span>
+          <div>
+            <strong>当前最看好加仓方向：</strong>科创50 ETF > AI应用 > MLCC概念 > 有色（回调后）
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====== 📰 海内外资讯 ====== -->
+  <section class="section section-full" id="news">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="icon">📰</span> 海内外资讯与解读</h2>
+        <span class="section-sub">政策 · 产业 · 资金 · 全球</span>
+      </div>
+
+      <div class="news-tabs">
+        <button class="news-tab active" data-tab="domestic">🇨🇳 国内资讯</button>
+        <button class="news-tab" data-tab="global">🌍 海外资讯</button>
+        <button class="news-tab" data-tab="calendar">📅 事件日历</button>
+      </div>
+
+      <div class="news-panels">
+        <!-- 国内资讯 -->
+        <div class="news-panel active" id="newsDomestic">
+          <div class="news-grid" id="domesticNewsGrid"></div>
+        </div>
+        <!-- 海外资讯 -->
+        <div class="news-panel" id="newsGlobal">
+          <div class="news-grid" id="globalNewsGrid"></div>
+        </div>
+        <!-- 事件日历 -->
+        <div class="news-panel" id="newsCalendar">
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 💰 持股收益追踪 ====== -->
+  <section class="section section-full" id="portfolio">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="icon">💰</span> 持股收益追踪</h2>
+        <span class="section-sub">数据保存在本地浏览器</span>
+      </div>
+
+      <!-- 添加持股表单 -->
+      <div class="portfolio-form-card" id="portfolioForm">
+        <div class="form-title">📝 添加持股</div>
+        <div class="form-row">
+          <input type="text" id="stockCode" placeholder="股票代码 e.g. 601899" class="form-input">
+          <input type="text" id="stockName" placeholder="股票名称 e.g. 紫金矿业" class="form-input">
+          <input type="number" id="stockQty" placeholder="持仓数量" class="form-input form-input-sm" step="100">
+          <input type="number" id="stockPrice" placeholder="买入均价" class="form-input form-input-sm" step="0.01">
+          <input type="date" id="stockDate" class="form-input form-input-sm">
+          <button class="form-btn" id="addStockBtn">➕ 添加</button>
+        </div>
+      </div>
+
+      <!-- 收益摘要 -->
+      <div class="portfolio-summary" id="portfolioSummary">
+        <div class="p-summary-item">
+          <span class="p-label">总市值</span>
+          <span class="p-value" id="totalMarketValue">¥0.00</span>
+        </div>
+        <div class="p-summary-item">
+          <span class="p-label">总盈亏</span>
+          <span class="p-value" id="totalPL">¥0.00</span>
+        </div>
+        <div class="p-summary-item">
+          <span class="p-label">日盈亏</span>
+          <span class="p-value" id="dailyPL">¥0.00</span>
+        </div>
+        <div class="p-summary-item">
+          <span class="p-label">总收益率</span>
+          <span class="p-value" id="totalReturn">0.00%</span>
+        </div>
+      </div>
+
+      <!-- 持仓表格 -->
+      <div class="portfolio-table-wrapper">
+        <table class="portfolio-table" id="portfolioTable">
+          <thead>
+            <tr>
+              <th>代码</th>
+              <th>名称</th>
+              <th>持仓数量</th>
+              <th>买入均价</th>
+              <th>当前价</th>
+              <th>日涨跌</th>
+              <th>日盈亏</th>
+              <th>总盈亏</th>
+              <th>收益率</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioBody">
+            <tr><td colspan="10" class="empty-msg">暂无持仓，请添加</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="portfolio-actions">
+        <span class="portfolio-count" id="portfolioCount">持仓数：0</span>
+        <div class="portfolio-action-right">
+          <span class="quote-status" id="quoteStatus">⏳ 等待刷新</span>
+          <button class="form-btn" id="refreshQuoteBtn">🔄 刷新行情</button>
+          <button class="form-btn form-btn-danger" id="clearPortfolioBtn">🗑️ 清空所有持仓</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 📈 投资分析 ====== -->
+  <section class="section section-full" id="analysis">
+    <div class="container">
+      <div class="section-header">
+        <h2><span class="icon">📈</span> 投资分析</h2>
+        <span class="section-sub">基于持仓与市场数据</span>
+      </div>
+
+      <div class="analysis-grid">
+        <!-- 饼图：板块配置 -->
+        <div class="analysis-card">
+          <div class="analysis-card-title">📊 板块配置</div>
+          <div class="pie-chart-container">
+            <canvas id="sectorPieChart" width="280" height="280"></canvas>
+            <div class="pie-center-text">
+              <span id="pieSectorCount">0</span>
+              <small>个板块</small>
+            </div>
+          </div>
+          <div class="pie-legend" id="pieLegend"></div>
+        </div>
+
+        <!-- 风险仪表 -->
+        <div class="analysis-card">
+          <div class="analysis-card-title">🛡️ 组合风险评估</div>
+          <div class="gauge-container">
+            <canvas id="riskGauge" width="240" height="160"></canvas>
+            <div class="gauge-label">
+              <span id="riskLevel">--</span>
+              <small>风险等级</small>
+            </div>
+          </div>
+          <div class="risk-stats" id="riskStats">
+            <div class="risk-stat-item"><span>持仓数</span><span id="statHoldings">0</span></div>
+            <div class="risk-stat-item"><span>盈利标的</span><span id="statWinners">0</span></div>
+            <div class="risk-stat-item"><span>亏损标的</span><span id="statLosers">0</span></div>
+            <div class="risk-stat-item"><span>胜率</span><span id="statWinRate">0%</span></div>
+          </div>
+        </div>
+
+        <!-- 近期催化日历 -->
+        <div class="analysis-card analysis-card-wide">
+          <div class="analysis-card-title">📅 近期催化事件</div>
+          <div class="event-timeline" id="eventTimeline">
+            <div class="event-item">
+              <div class="event-date">6月3日</div>
+              <div class="event-dot"></div>
+              <div class="event-content">
+                <span class="event-tag tag-green">今日</span>
+                <span>腾讯云下调 DeepSeek-V4 价格</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 底部 ====== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>免责声明：本看板基于公开信息整理，不构成投资建议。市场有风险，投资需谨慎。</p>
+      <p>数据来源：腾讯行情API、财联社、东方财富、新浪财经、同花顺</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

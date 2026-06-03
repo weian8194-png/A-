@@ -979,10 +979,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---- Console welcome ----
-  console.log('%c📊 A 股投资看板 v2.0', 'font-size:20px; font-weight:bold; color:#448aff');
-  console.log('%c数据时间: 2026年6月3日 午盘', 'color:#8892a6');
-  console.log('%c💡 快捷键: [ESC] 收起详情 | [T] 回到顶部', 'color:#5a6478');
-  console.log('%c📰 资讯 | 💰 持股收益 | 📈 投资分析 — 导航栏切换', 'color:#5a6478');
+  console.log('%cA- Investment Dashboard v4.0', 'font-size:20px; font-weight:bold; color:#448aff');
+  console.log('%cData: 2026-06-03 11:07 CST', 'color:#8892a6');
+  
+  
 
   const indexData = [];
   document.querySelectorAll('.index-gloss').forEach(card => {

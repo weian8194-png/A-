@@ -830,101 +830,500 @@ body {
 .bar-fill.up { background: var(--green); }
 .bar-fill.down { background: var(--red); }
 
-/* ---- Flow Table ---- */
-.flow-table td:first-child {
-  font-weight: 600;
+/* ====================================
+   💼 持仓赛道分析 Grid
+   ==================================== */
+.holding-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 10px;
 }
 
-.flow-in { color: var(--green); }
-.flow-out { color: var(--red); }
-
-/* ---- Opportunity Cards ---- */
-.opp-card {
+.holding-card {
   position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-left: 3px solid transparent;
 }
 
-.opp-card .opp-tag {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
+.holding-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.holding-card.signal-green { border-left-color: var(--emerald); }
+.holding-card.signal-yellow { border-left-color: var(--amber); }
+.holding-card.signal-red { border-left-color: var(--rose); }
+
+.holding-card.expanded {
+  border-color: rgba(68, 138, 255, 0.2);
+}
+
+.holding-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
-.opp-hot { background: linear-gradient(135deg, #ff1744, #ff9100); color: #fff; }
-.opp-warm { background: linear-gradient(135deg, #ffc107, #ff9800); color: #000; }
+.holding-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
 
-.opp-card .opp-desc {
+.holding-code {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* 持仓个股列表 */
+.holding-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item {
   display: grid;
-  gap: 6px;
-  margin: 10px 0;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 6px;
   font-size: 13px;
 }
 
-.opp-card .opp-desc .row {
-  display: flex;
-  justify-content: space-between;
+.item-name { font-weight: 500; color: var(--text-primary); }
+.item-code { font-size: 11px; color: var(--text-muted); }
+.item-price { font-weight: 600; text-align: right; color: var(--text-primary); }
+.item-chg { font-weight: 600; text-align: right; min-width: 60px; }
+.item-chg.up { color: var(--rose); }
+.item-chg.down { color: var(--emerald); }
+.item-chg.flat { color: var(--text-muted); }
+
+/* 展开详情 */
+.holding-detail {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(51, 65, 85, 0.2);
+}
+
+.detail-catalyst {
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.detail-catalyst ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-catalyst li {
+  font-size: 12px;
   color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 2px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
 }
 
-.opp-card .opp-desc .row .val {
-  color: var(--text-primary);
-  text-align: right;
-  max-width: 60%;
-}
-
-.opp-card .opp-stocks {
-  margin-top: 8px;
+.detail-advice {
   padding: 8px 10px;
   background: rgba(0,0,0,0.2);
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.detail-advice .advice-label {
+  font-weight: 600;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ---- Hot Sector Filters ---- */
+.holding-filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 5px 14px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover {
+  border-color: rgba(51, 65, 85, 0.8);
+  color: var(--text-secondary);
+}
+
+.filter-btn.active {
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--text-primary);
+  border-color: rgba(51, 65, 85, 0.6);
+}
+
+/* ====================================
+   🔥 今日热点板块
+   ==================================== */
+.hot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.hot-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hot-rank {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.hot-card.rank-1 .hot-rank { background: rgba(251, 191, 36, 0.15); color: var(--amber); }
+.hot-card.rank-2 .hot-rank { background: rgba(148, 163, 184, 0.15); color: var(--slate-400); }
+.hot-card.rank-3 .hot-rank { background: rgba(244, 63, 94, 0.1); color: var(--rose); }
+
+.hot-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hot-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.hot-chg {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  color: var(--rose);
+}
+
+.hot-stocks {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ====================================
+   💰 主力资金流向
+   ==================================== */
+.flow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.flow-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.flow-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.2);
+}
+
+.flow-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
   font-size: 13px;
   color: var(--text-secondary);
 }
 
-/* ---- Advice Table ---- */
-.advice-table td {
-  vertical-align: top;
+.flow-item + .flow-item {
+  border-top: 1px solid rgba(51, 65, 85, 0.1);
 }
 
-.advice-table .advice-label {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+.flow-item .tag-hot {
+  color: var(--rose);
   font-weight: 600;
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
 }
 
-.advice-label.buy { background: var(--green-bg); color: var(--green); }
-.advice-label.sell { background: var(--red-bg); color: var(--red); }
-.advice-label.hold { background: var(--yellow-bg); color: var(--yellow); }
+.flow-item .tag-out {
+  color: var(--text-muted);
+}
 
-/* ---- Risk Cards ---- */
+/* ====================================
+   💨 今日风口
+   ==================================== */
+.wind-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.wind-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wind-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.wind-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ====================================
+   💡 新机会发现
+   ==================================== */
+.opportunity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
+
+.opp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  border-left: 3px solid var(--border-color);
+}
+
+.opp-card.opp-hot {
+  border-left-color: var(--amber);
+}
+
+.opp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.opp-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--text-muted);
+  border: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+.opp-hot .opp-badge {
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--amber);
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.opp-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.opp-body p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.opp-stocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.opp-stock-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  border: 1px solid rgba(51, 65, 85, 0.2);
+}
+
+.opp-timing {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 6px 8px;
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+/* ====================================
+   🎯 具体买卖建议
+   ==================================== */
+.advice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.advice-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  border-top: 3px solid transparent;
+}
+
+.advice-card.advice-buy { border-top-color: var(--emerald); }
+.advice-card.advice-sell { border-top-color: var(--rose); }
+
+.advice-type {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.2);
+}
+
+.advice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.advice-item {
+  padding: 10px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 8px;
+}
+
+.advice-target {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.advice-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.advice-tag {
+  font-size: 10px;
+  padding: 1px 6px;
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 4px;
+  color: var(--text-muted);
+}
+
+.advice-reason {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.advice-level,
+.advice-stop,
+.advice-action {
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 2px 0;
+}
+
+/* ====================================
+   ⚠️ 风险提示
+   ==================================== */
 .risk-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
 }
 
 .risk-card {
   display: flex;
-  gap: 12px;
-  padding: 14px 16px;
+  gap: 10px;
+  padding: 12px 14px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   align-items: flex-start;
 }
 
-.risk-icon {
-  font-size: 18px;
+.risk-card::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-top: 7px;
   flex-shrink: 0;
-  margin-top: 1px;
 }
 
+.risk-card.high::before { background: var(--rose); }
+.risk-card.med::before { background: var(--amber); }
+.risk-card.low::before { background: var(--text-muted); }
+
 .risk-text {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.6;
 }
@@ -933,20 +1332,64 @@ body {
   color: var(--text-primary);
 }
 
-/* ---- Summary ---- */
-.summary-list {
-  display: grid;
-  gap: 10px;
+/* ====================================
+   📋 总结与核心观点
+   ==================================== */
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.summary-item {
+.summary-point {
   display: flex;
   gap: 10px;
   padding: 12px 14px;
-  background: rgba(0,0,0,0.2);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
   align-items: flex-start;
+}
+
+.summary-point.highlight {
+  border-color: rgba(68, 138, 255, 0.15);
+  background: rgba(68, 138, 255, 0.03);
+}
+
+.summary-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.summary-point strong {
+  color: var(--text-primary);
+}
+
+.summary-point div {
+  color: var(--text-secondary);
+}
+
+/* ====================================
+   📱 Lower Section Responsive
+   ==================================== */
+@media (max-width: 768px) {
+  .holding-grid,
+  .opportunity-grid {
+    grid-template-columns: 1fr;
+  }
+  .hot-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .flow-grid,
+  .advice-grid {
+    grid-template-columns: 1fr;
+  }
+  .wind-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .summary-item .num {

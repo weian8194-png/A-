@@ -3,11 +3,11 @@
    ==================================== */
 
 :root {
-  --bg-primary: #090D16;
+  --bg-primary: #0B0F19;
   --bg-secondary: #0F1522;
-  --bg-card: rgba(19, 26, 38, 0.8);
-  --bg-card-hover: rgba(26, 34, 50, 0.85);
-  --border-color: rgba(51, 65, 85, 0.5);
+  --bg-card: #111827;
+  --bg-card-hover: #161E2E;
+  --border-color: rgba(51, 65, 85, 0.4);
   --text-primary: #E8EDF5;
   --text-secondary: #8892A6;
   --text-muted: #5A6478;
@@ -38,8 +38,6 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-variant-numeric: tabular-nums;
   background: var(--bg-primary);
-  background-image: radial-gradient(ellipse at 20% 50%, rgba(68, 138, 255, 0.02) 0%, transparent 60%),
-                    radial-gradient(ellipse at 80% 20%, rgba(244, 63, 94, 0.01) 0%, transparent 50%);
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -182,18 +180,14 @@ body {
 /* ---- Cards ---- */
 .card {
   background: var(--bg-card);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius);
   padding: 20px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .card:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(68, 138, 255, 0.2);
-  transform: translateY(-1px);
 }
 
 .card-header {
@@ -254,8 +248,7 @@ body {
 
 /* ---- 区块容器 ---- */
 .section-dash {
-  margin-bottom: 20px;
-  animation: fadeInUp 0.4s ease forwards;
+  margin-bottom: 16px;
 }
 
 /* ---- 区块头部 ---- */
@@ -263,9 +256,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .dash-header-left {
@@ -287,14 +280,13 @@ body {
 
 .dash-header-badge {
   font-size: 10px;
-  padding: 2px 10px;
-  border-radius: 10px;
-  background: var(--blue-bg);
-  color: var(--blue);
-  border: 1px solid rgba(68, 138, 255, 0.2);
-  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--text-muted);
+  border: 1px solid rgba(51, 65, 85, 0.3);
+  font-weight: 500;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
 
 .dash-header-right {
@@ -317,22 +309,15 @@ body {
 .dash-two-col {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: 16px;
+  gap: 10px;
 }
 
 .dash-left-panel,
 .dash-right-panel {
-  background: rgba(26, 31, 46, 0.5);
-  border: 1px solid rgba(42, 48, 64, 0.6);
-  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   padding: 20px;
-  backdrop-filter: blur(8px);
-  transition: border-color 0.2s;
-}
-
-.dash-left-panel:hover,
-.dash-right-panel:hover {
-  border-color: rgba(68, 138, 255, 0.2);
 }
 
 .dash-sub-header {
@@ -350,13 +335,13 @@ body {
 
 .dash-sub-badge {
   font-size: 10px;
-  padding: 2px 10px;
-  border-radius: 10px;
-  background: var(--emerald-bg);
-  color: var(--emerald);
-  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--text-muted);
+  font-weight: 500;
   margin-left: auto;
-  border: 1px solid rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(51, 65, 85, 0.3);
 }
 
 /* ====================================
@@ -365,110 +350,65 @@ body {
 .index-matrix {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .index-gloss {
   position: relative;
-  overflow: hidden;
   background: var(--bg-card);
-  border: 1px solid var(--glass-border);
-  border-radius: 14px;
-  padding: 18px 16px 16px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.15s ease;
   cursor: default;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-/* 涨跌光晕呼吸灯 — 上涨时微量红晕，下跌时微量绿晕 */
-.index-gloss[data-movement="up"] {
-  box-shadow: 0 0 20px rgba(244, 63, 94, 0.04), inset 0 0 40px rgba(244, 63, 94, 0.02);
-}
-
-.index-gloss[data-movement="down"] {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.04), inset 0 0 40px rgba(16, 185, 129, 0.02);
-}
-
-.index-gloss::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(68, 138, 255, 0.25), transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
 }
 
 .index-gloss:hover {
-  transform: translateY(-3px);
-  border-color: rgba(68, 138, 255, 0.2);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-}
-
-.index-gloss:hover::before {
-  opacity: 1;
-}
-
-/* 涨跌光晕 (gloss-shimmer) */
-.gloss-shimmer {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.03) 0%, transparent 60%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.index-gloss:hover .gloss-shimmer {
-  opacity: 1;
+  background: var(--bg-card-hover);
+  border-color: rgba(51, 65, 85, 0.6);
 }
 
 /* 科创50特殊高亮 */
 .index-gloss.gloss-hot {
-  border-color: rgba(251, 191, 36, 0.25);
-}
-
-.index-gloss.gloss-hot::before {
-  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  border-color: rgba(251, 191, 36, 0.2);
 }
 
 .index-gloss.gloss-hot:hover {
-  border-color: rgba(251, 191, 36, 0.35);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(251, 191, 36, 0.04);
+  border-color: rgba(251, 191, 36, 0.3);
 }
 
 .gloss-label {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
-  color: #8892a6;
-  margin-bottom: 8px;
+  color: #64748b;
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: 0.3px;
 }
 
 .gloss-hot-tag {
-  font-size: 10px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: rgba(255, 193, 7, 0.15);
-  color: #ffc107;
-  font-weight: 700;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--amber);
+  font-weight: 600;
 }
 
 .gloss-price {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   letter-spacing: -0.5px;
-  margin-bottom: 6px;
-  line-height: 1.2;
+  margin-bottom: 2px;
+  line-height: 1.3;
+  color: var(--text-primary);
 }
 
 /* A股红涨绿跌：涨幅用亮月季红 #F43F5E，跌幅用翡翠绿 #10B981 */
@@ -485,9 +425,9 @@ body {
 .gloss-change {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -505,8 +445,7 @@ body {
 .metric-bar {
   display: flex;
   align-items: center;
-  gap: 0;
-  padding: 4px 0;
+  padding: 0;
 }
 
 .metric-cell {
@@ -517,13 +456,13 @@ body {
 
 .metric-number {
   display: block;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
   font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-  color: #FBBF24;
-  letter-spacing: -1px;
-  line-height: 1.1;
-  margin-bottom: 4px;
+  color: var(--amber);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 2px;
 }
 
 .metric-unit {
@@ -598,13 +537,13 @@ body {
 .sentiment-pill {
   display: inline-block;
   padding: 3px 10px;
-  background: rgba(16, 185, 129, 0.08);
-  color: var(--emerald);
+  background: rgba(30, 41, 59, 0.6);
+  color: var(--slate-400);
   border-radius: 6px;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  border: 1px solid rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(51, 65, 85, 0.3);
 }
 
 .sentiment-signal {
@@ -614,9 +553,12 @@ body {
 
 .sentiment-status {
   font-size: 12px;
-  font-weight: 600;
-  color: var(--emerald);
+  font-weight: 500;
+  color: var(--text-secondary);
 }
+
+.sentiment-status.pos { color: var(--emerald); }
+.sentiment-status.neg { color: var(--rose); }
 
 .sentiment-right {
   font-size: 13px;
@@ -1616,7 +1558,6 @@ html {
 }
 
 .portfolio-table th {
-  text-align: left;
   padding: 10px 12px;
   font-size: 11px;
   color: var(--text-muted);
@@ -1628,9 +1569,24 @@ html {
   background: var(--bg-card);
 }
 
+/* 表头 & 数据对齐：名称左对齐，数字右对齐 */
+.portfolio-table th:first-child,
+.portfolio-table td:first-child {
+  text-align: left;
+}
+
+.portfolio-table th:not(:first-child),
+.portfolio-table td:not(:first-child) {
+  text-align: right;
+}
+
+.portfolio-table td:nth-child(2) {
+  text-align: left;
+}
+
 .portfolio-table td {
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(42, 48, 64, 0.4);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.15);
   white-space: nowrap;
 }
 

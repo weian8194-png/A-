@@ -164,6 +164,20 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
+  // 报告中的固定价格（API 不可用时的降级方案）
+  const FALLBACK_PRICES = {
+    '601899': { price: 31.55, change: -0.09 },
+    '603993': { price: 19.89, change: 0.76 },
+    '000975': { price: 23.04, change: 0.00 },
+    '601872': { price: 15.24, change: -1.61 },
+    '600989': { price: 24.35, change: -0.81 },
+    '159842': { price: 0.990, change: 0.41 },
+    '601179': { price: 16.30, change: -1.45 },
+    '000636': { price: 8.50, change: 1.87 },
+    '300394': { price: 55.60, change: 13.32 },
+    '588000': { price: 1.050, change: 0.00 }
+  };
+
   // 实时行情缓存（由 API 动态填充）
   let priceCache = {};
   let lastFetchTime = 0;
@@ -209,15 +223,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /** 获取单只股票的当前价 */
+  /** 获取单只股票的当前价（API → 静态降级） */
   function getCurrentPrice(code) {
     if (priceCache[code]) return priceCache[code].price;
+    if (FALLBACK_PRICES[code]) return FALLBACK_PRICES[code].price;
     return 0;
   }
 
-  /** 获取单只股票的涨跌幅 */
+  /** 获取单只股票的涨跌幅（API → 静态降级） */
   function getStockChange(code) {
     if (priceCache[code]) return priceCache[code].change || 0;
+    if (FALLBACK_PRICES[code]) return FALLBACK_PRICES[code].change;
     return 0;
   }
 
@@ -698,7 +714,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const now = new Date();
     const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     const cacheLen = Object.keys(priceCache).length;
-    statusEl.textContent = `🟢 实时 ${timeStr} (${cacheLen}只)`;
+    if (cacheLen > 0) {
+      statusEl.textContent = `🟢 实时 ${timeStr} (${cacheLen}只)`;
+    } else {
+      statusEl.textContent = `⚠️ API不可用，使用静态数据`;
+    }
     btn.disabled = false;
   });
 
@@ -709,7 +729,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const now = new Date();
     const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     const cacheLen = Object.keys(priceCache).length;
-    if (statusEl) statusEl.textContent = `🟢 实时 ${timeStr} (${cacheLen}只)`;
+    if (statusEl) {
+      if (cacheLen > 0) {
+        statusEl.textContent = `🟢 实时 ${timeStr} (${cacheLen}只)`;
+      } else {
+        statusEl.textContent = `📊 静态数据 (2026-06-03 午盘)`;
+      }
+    }
   }, 500);
 
   // ---- 每30秒自动刷新一次 ----

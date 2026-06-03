@@ -459,6 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
       portfolio.splice(idx, 1);
       savePortfolio();
       renderPortfolio();
+      syncHoldingCards();
     }
   });
 
@@ -469,8 +470,42 @@ document.addEventListener('DOMContentLoaded', () => {
       portfolio = [];
       savePortfolio();
       renderPortfolio();
+      syncHoldingCards();
     }
   });
+
+  // ---- 持仓赛道联动 ----
+  function syncHoldingCards() {
+    const holdingGrid = document.getElementById('holdingGrid');
+    if (!holdingGrid) return;
+
+    const heldCodes = new Set(portfolio.map(s => s.code));
+    const heldMap = {};
+    portfolio.forEach(s => {
+      heldMap[s.code] = { name: s.name, qty: s.qty, code: s.code };
+    });
+
+    holdingGrid.querySelectorAll('.holding-card').forEach(card => {
+      // Remove existing badge
+      const oldBadge = card.querySelector('.held-badge');
+      if (oldBadge) oldBadge.remove();
+
+      // Check if any item in this card matches portfolio
+      const itemCodes = card.querySelectorAll('.item-code');
+      let hasHold = false;
+      itemCodes.forEach(el => {
+        const code = el.textContent.trim();
+        if (heldCodes.has(code)) hasHold = true;
+      });
+
+      if (hasHold) {
+        const badge = document.createElement('span');
+        badge.className = 'held-badge';
+        badge.textContent = '已持仓';
+        card.querySelector('.holding-header')?.appendChild(badge);
+      }
+    });
+  }
 
   // ==================================================================
   // 4. ANALYSIS: Canvas 饼图 (板块配置)

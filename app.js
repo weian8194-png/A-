@@ -789,13 +789,14 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
     } catch (err) {
-      document.getElementById('lastUpdateBadge').textContent = '离线';
-      console.warn('Index refresh failed:', err.message);
+      document.getElementById('lastUpdateBadge').textContent = '静态数据';
+      console.warn('Index refresh failed (expected on GitHub Pages):', err.message);
     }
   }
 
   // Refresh button
   document.getElementById('refreshIndexBtn')?.addEventListener('click', () => {
+    document.getElementById('lastUpdateBadge').textContent = '刷新中...';
     fetchAndRenderIndexes();
   });
 
@@ -862,9 +863,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cacheLen = Object.keys(priceCache).length;
     if (statusEl) {
       if (cacheLen > 0) {
-        statusEl.textContent = `🟢 实时 ${timeStr} (${cacheLen}只)`;
+        statusEl.textContent = `实时 ${timeStr}`;
       } else {
-        statusEl.textContent = `📊 静态数据 (2026-06-03 午盘)`;
+        statusEl.textContent = `静态数据`;
       }
     }
   }, 500);
@@ -875,9 +876,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (portfolio.length > 0) {
       await refreshAllQuotes();
       const now = new Date();
-      const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
       const cacheLen = Object.keys(priceCache).length;
-      if (statusEl) statusEl.textContent = `🟢 实时 ${timeStr} (${cacheLen}只)`;
+      if (statusEl && cacheLen > 0) statusEl.textContent = `实时 ${timeStr}`;
     }
   }, 30000);
 

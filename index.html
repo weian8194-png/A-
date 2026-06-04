@@ -37,19 +37,19 @@
     <section class="section-dash">
       <div class="dash-header">
         <div class="dash-header-left">
-          
           <h2 class="dash-section-title">核心指数</h2>
-          <span class="dash-header-badge">盘中</span>
+          <button class="refresh-btn" id="refreshIndexBtn" title="刷新指数">↻</button>
+          <span class="dash-header-badge" id="lastUpdateBadge">等待刷新</span>
         </div>
         <div class="dash-header-right">
-          <span class="dash-header-time">11:07</span>
-          <span class="dash-header-source">腾讯API · 同花顺</span>
+          <span class="dash-header-time" id="indexTime">11:07</span>
+          <span class="dash-header-source">腾讯API</span>
         </div>
       </div>
 
       <!-- 5列指数微悬浮卡片 -->
       <div class="index-matrix" id="indexMatrix">
-        <div class="index-gloss" data-movement="up">
+        <div class="index-gloss" data-index="sh000001" data-movement="up">
           <div class="gloss-label">上证指数</div>
           <div class="gloss-price up">4,097.62</div>
           <div class="gloss-change up">
@@ -57,7 +57,7 @@
             <span class="gloss-pct">+0.55%</span>
           </div>
                   </div>
-        <div class="index-gloss" data-movement="up">
+        <div class="index-gloss" data-index="sz399001" data-movement="up">
           <div class="gloss-label">深证成指</div>
           <div class="gloss-price up">15,948.19</div>
           <div class="gloss-change up">
@@ -65,7 +65,7 @@
             <span class="gloss-pct">+2.29%</span>
           </div>
                   </div>
-        <div class="index-gloss" data-movement="up">
+        <div class="index-gloss" data-index="sz399006" data-movement="up">
           <div class="gloss-label">创业板指</div>
           <div class="gloss-price up">4,205.55</div>
           <div class="gloss-change up">
@@ -73,7 +73,7 @@
             <span class="gloss-pct">+3.69%</span>
           </div>
                   </div>
-        <div class="index-gloss gloss-hot" data-movement="up">
+        <div class="index-gloss gloss-hot" data-index="sh000688" data-movement="up">
           <div class="gloss-label">科创50 <span class="gloss-hot-tag">HOT 领涨</span></div>
           <div class="gloss-price up">1,763.78</div>
           <div class="gloss-change up">
@@ -81,7 +81,7 @@
             <span class="gloss-pct">+4.33%</span>
           </div>
                   </div>
-        <div class="index-gloss" data-movement="up">
+        <div class="index-gloss" data-index="sh000016" data-movement="up">
           <div class="gloss-label">上证50</div>
           <div class="gloss-price up">2,933.05</div>
           <div class="gloss-change up">

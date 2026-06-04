@@ -733,10 +733,106 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==================================================================
-  // 7. INITIAL RENDER + AUTO REFRESH
+  // 7. INDEX CARDS LIVE UPDATE (开盘/午盘/收盘 刷新)
+  // ==================================================================
+  const INDEX_CODES = ['sh000001', 'sz399001', 'sz399006', 'sh000688', 'sh000016'];
+  let lastIndexRefresh = null;
+
+  async function fetchAndRenderIndexes() {
+    try {
+      const resp = await fetch(`/api/quote?codes=000001,399001,399006,000688,000016&t=${Date.now()}`);
+      const json = await resp.json();
+      if (!json.success) return;
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('indexTime').textContent = timeStr;
+      document.getElementById('lastUpdateBadge').textContent = '已刷新';
+      lastIndexRefresh = now;
+
+      const indexMap = {
+        '000001': '上证指数', '399001': '深证成指', '399006': '创业板指',
+        '000688': '科创50', '000016': '上证50'
+      };
+
+      document.querySelectorAll('.index-gloss').forEach(card => {
+        const idx = card.dataset.index;
+        if (!idx) return;
+        const code = idx.replace(/^(sh|sz)/, '');
+        const data = json.data[code];
+        if (!data) return;
+
+        const price = data.price;
+        const chg = data.changePercent || 0;
+        const isUp = chg >= 0;
+        card.dataset.movement = isUp ? 'up' : 'down';
+
+        const priceEl = card.querySelector('.gloss-price');
+        const pointsEl = card.querySelector('.gloss-points');
+        const pctEl = card.querySelector('.gloss-pct');
+
+        if (priceEl) {
+          priceEl.textContent = price.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          priceEl.className = `gloss-price ${isUp ? 'up' : 'down'}`;
+        }
+        if (pointsEl) {
+          pointsEl.textContent = `${isUp ? '+' : ''}${data.change?.toFixed(2) || chg.toFixed(2)}`;
+          pointsEl.className = `gloss-points ${isUp ? 'up' : 'down'}`;
+        }
+        if (pctEl) {
+          pctEl.textContent = `${isUp ? '+' : ''}${chg.toFixed(2)}%`;
+          pctEl.className = `gloss-pct ${isUp ? 'up' : 'down'}`;
+        }
+
+        const changeEl = card.querySelector('.gloss-change');
+        if (changeEl) changeEl.className = `gloss-change ${isUp ? 'up' : 'down'}`;
+      });
+
+    } catch (err) {
+      document.getElementById('lastUpdateBadge').textContent = '离线';
+      console.warn('Index refresh failed:', err.message);
+    }
+  }
+
+  // Refresh button
+  document.getElementById('refreshIndexBtn')?.addEventListener('click', () => {
+    fetchAndRenderIndexes();
+  });
+
+  // ---- Scheduled refresh: 开盘 9:30, 午盘 11:30, 收盘 15:00 ----
+  function checkSchedule() {
+    const now = new Date();
+    const h = now.getHours(), m = now.getMinutes();
+    const day = now.getDay();
+    if (day === 0 || day === 6) return; // weekends
+
+    const isRefreshWindow =
+      (h === 9 && m >= 30 && m <= 35) ||
+      (h === 11 && m >= 30 && m <= 35) ||
+      (h === 15 && m >= 0 && m <= 5);
+
+    if (!isRefreshWindow) return;
+
+    // Only refresh once per window
+    if (lastIndexRefresh) {
+      const minutesSince = (now - lastIndexRefresh) / 60000;
+      if (minutesSince < 2) return;
+    }
+
+    fetchAndRenderIndexes();
+  }
+
+  // Check every 30 seconds
+  setInterval(checkSchedule, 30000);
+
+  // ==================================================================
+  // 8. INITIAL RENDER + AUTO REFRESH
   // ==================================================================
   renderPortfolio();
   renderEventTimeline();
+
+  // Fetch indexes on page load
+  fetchAndRenderIndexes();
 
   // ---- 刷新行情按钮 ----
   document.getElementById('refreshQuoteBtn')?.addEventListener('click', async () => {

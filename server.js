@@ -37,6 +37,11 @@ const GTIM_BASE = 'http://qt.gtimg.cn/q=';
 /** 将股票代码转为腾讯API格式 */
 function toTencentCode(code) {
   code = code.trim();
+  // 指数代码 (6位数字，如 000001 上证, 399001 深证成指, 000688 科创50)
+  const INDEX_CODES = ['000001','399001','399006','000688','000016','399300','399905'];
+  if (INDEX_CODES.includes(code)) {
+    return code.startsWith('0') ? 's_sh' + code : 's_sz' + code;
+  }
   // 6开头的上海, 0/3开头的深圳
   if (code.startsWith('6') || code.startsWith('9')) return 'sh' + code;
   if (code.startsWith('0') || code.startsWith('3') || code.startsWith('2')) return 'sz' + code;
@@ -47,23 +52,42 @@ function toTencentCode(code) {
 
 /** 解析腾讯API返回的文本行 */
 function parseGtimLine(line) {
-  // v_sh601899="1~紫金矿业~601899~31.55~31.58~31.20~31.65~..."
   const match = line.match(/^v_(\w+)="([^"]+)"/);
   if (!match) return null;
   const fields = match[2].split('~');
+  const rawKey = match[1].replace(/^s_/, '');
+  const isIndex = fields.length < 20;
+
+  if (isIndex) {
+    return {
+      code: rawKey.replace(/^(sh|sz)/, ''),
+      name: fields[1],
+      price: parseFloat(fields[3]) || 0,
+      yesterdayClose: 0,
+      open: 0,
+      high: 0,
+      low: 0,
+      change: parseFloat(fields[4]) || 0,
+      changePercent: parseFloat(fields[5]) || 0,
+      volume: parseFloat(fields[6]) || 0,
+      amount: parseFloat(fields[9]) || 0,
+      time: '',
+    };
+  }
+
   return {
-    code: match[1].replace(/^(sh|sz)/, ''),
+    code: rawKey.replace(/^(sh|sz)/, ''),
     name: fields[1],
     price: parseFloat(fields[3]) || 0,
     yesterdayClose: parseFloat(fields[4]) || 0,
     open: parseFloat(fields[5]) || 0,
     high: parseFloat(fields[33]) || 0,
     low: parseFloat(fields[34]) || 0,
-    change: parseFloat(fields[31]) || 0,      // 涨跌额
-    changePercent: parseFloat(fields[32]) || 0, // 涨跌幅%
-    volume: parseFloat(fields[6]) || 0,        // 成交量(手)
-    amount: parseFloat(fields[37]) || 0,       // 成交额(万)
-    time: fields[30] || '',                     // 时间
+    change: parseFloat(fields[31]) || 0,
+    changePercent: parseFloat(fields[32]) || 0,
+    volume: parseFloat(fields[6]) || 0,
+    amount: parseFloat(fields[37]) || 0,
+    time: fields[30] || '',
   };
 }
 

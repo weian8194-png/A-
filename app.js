@@ -794,11 +794,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Refresh button
-  document.getElementById('refreshIndexBtn')?.addEventListener('click', () => {
-    document.getElementById('lastUpdateBadge').textContent = '刷新中...';
-    fetchAndRenderIndexes();
-  });
+  // ---- Dynamic header date ----
+  function updateHeaderDate() {
+    const now = new Date();
+    const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const h = now.getHours(), m = now.getMinutes();
+    let session = (h < 11 || (h === 11 && m < 30)) ? '早盘' : (h < 15) ? '午盘' : '收盘';
+    if (h < 9 || (h === 9 && m < 30)) session = '盘前';
+    if (h >= 15 && h < 20) session = '盘后';
+    const dateStr = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日（${days[now.getDay()]}）${session}`;
+    const el = document.getElementById('headerDate');
+    if (el) el.textContent = dateStr;
+    document.title = `A 股投资看板 — ${dateStr}`;
+  }
+  updateHeaderDate();
+  setInterval(updateHeaderDate, 60000);
 
   // ---- Scheduled refresh: 开盘 9:30, 午盘 11:30, 收盘 15:00 ----
   function checkSchedule() {

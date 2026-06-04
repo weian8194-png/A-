@@ -181,306 +181,36 @@
       </div>
     </section>
 
-    <!-- ====== 持仓赛道分析 ====== -->
+    <!-- ====== 赛道分析 ====== -->
     <section class="section">
       <div class="section-header">
-        <h2>持仓赛道分析</h2>
-        <span class="section-sub">盘中数据 · 点击卡片展开详情</span>
+        <h2>赛道分析</h2>
+        <span class="section-sub">持仓 + 关注</span>
       </div>
-      <div class="holding-grid" id="holdingGrid">
 
-        <!-- 有色 -->
-        <div class="holding-card signal-yellow" data-signal="yellow">
-          <div class="holding-header">
-            <span class="holding-tag tag-yellow">持有</span>
-            <span class="holding-name">有色金属</span>
-          </div>
-          <div class="holding-items">
-            <div class="item">
-              <span class="item-name">紫金矿业</span>
-              <span class="item-code">601899</span>
-              <span class="item-price">31.55</span>
-              <span class="item-chg down">-0.09%</span>
-            </div>
-            <div class="item">
-              <span class="item-name">洛阳钼业</span>
-              <span class="item-code">603993</span>
-              <span class="item-price">19.89</span>
-              <span class="item-chg up">+0.76%</span>
-            </div>
-            <div class="item">
-              <span class="item-name">山金国际</span>
-              <span class="item-code">000975</span>
-              <span class="item-price">23.04</span>
-              <span class="item-chg flat">0.00%</span>
-            </div>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> 欧洲央行：黄金已超越美债成全球最大储备资产</li>
-                <li><span class="dot-green"></span> 中信证券：铜价有望冲击15000美元/吨</li>
-                <li><span class="dot-red"></span> 紫金矿业微跌，与板块整体涨幅背离</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>有色板块受益于大宗商品牛市+全球央行增持黄金。紫金短线回调或是低吸机会，建议持有。</p>
-            </div>
-          </div>
+      <!-- 标签切换 -->
+      <div class="sector-tabs" id="sectorTabs">
+        <button class="sector-tab active" data-tab="holdings">持仓赛道</button>
+        <button class="sector-tab" data-tab="watch">关注赛道</button>
+      </div>
+
+      <!-- 持仓赛道视图 -->
+      <div class="sector-panel active" id="holdingsPanel">
+        <div id="sectorHoldingsContent">
+          <div class="sector-empty">暂无持仓数据，请先在「持股收益」中添加</div>
         </div>
+      </div>
 
-        <!-- 招商轮船 -->
-        <div class="holding-card signal-red" data-signal="red">
-          <div class="holding-header">
-            <span class="holding-tag tag-red">观望</span>
-            <span class="holding-name">招商轮船</span>
-            <span class="holding-code">601872</span>
-          </div>
-          <div class="holding-items">
-            <div class="item">
-              <span class="item-name">招商轮船</span>
-              <span class="item-price">15.24</span>
-              <span class="item-chg down">-1.61%</span>
-            </div>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-red"></span> 中东局势升级！美军空袭，伊朗反击</li>
-                <li><span class="dot-yellow"></span> 冲突双刃剑：或推升运价</li>
-                <li><span class="dot-red"></span> 放量下挫（振幅4.07%），资金分歧</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>密切观望，不急于加仓。如已获利可考虑减仓锁定部分利润。</p>
-            </div>
-          </div>
+      <!-- 关注赛道视图 -->
+      <div class="sector-panel" id="watchPanel">
+        <div class="watch-form">
+          <input type="text" id="watchCode" class="watch-input" placeholder="股票代码 e.g. 601899">
+          <input type="text" id="watchName" class="watch-input" placeholder="股票名称 e.g. 紫金矿业">
+          <button class="watch-btn primary" id="addWatchBtn">添加关注</button>
         </div>
-
-        <!-- 宝丰能源 -->
-        <div class="holding-card signal-red" data-signal="red">
-          <div class="holding-header">
-            <span class="holding-tag tag-red">持有观望</span>
-            <span class="holding-name">宝丰能源</span>
-            <span class="holding-code">600989</span>
-          </div>
-          <div class="holding-items">
-            <div class="item">
-              <span class="item-name">宝丰能源</span>
-              <span class="item-price">24.35</span>
-              <span class="item-chg down">-0.81%</span>
-            </div>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-yellow"></span> 原油高位（94.78美元），煤制烯烃成本优势显现</li>
-                <li><span class="dot-red"></span> 资金从能源板块流出，电子吸金效应明显</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>高油价对煤化工有利，但短期市场焦点在科技成长。建议持有观望，等待中报验证。</p>
-            </div>
-          </div>
+        <div id="watchlistContent">
+          <div class="sector-empty">暂无关注标的，请添加</div>
         </div>
-
-        <!-- 券商ETF -->
-        <div class="holding-card signal-green" data-signal="green">
-          <div class="holding-header">
-            <span class="holding-tag tag-green">持有</span>
-            <span class="holding-name">券商ETF 银华</span>
-            <span class="holding-code">159842</span>
-          </div>
-          <div class="holding-items">
-            <div class="item">
-              <span class="item-name">券商ETF</span>
-              <span class="item-price">0.990</span>
-              <span class="item-chg up">+0.41%</span>
-            </div>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> 5月新开户276.53万户，同比+78%</li>
-                <li><span class="dot-green"></span> 半日近1.7万亿成交，佣金收入预期提升</li>
-                <li><span class="dot-green"></span> 电子行业成交额连续15个月霸榜</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>继续持有，券商是确定性较高的弹性品种。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 中国西电 -->
-        <div class="holding-card signal-red" data-signal="red">
-          <div class="holding-header">
-            <span class="holding-tag tag-red">建议减仓</span>
-            <span class="holding-name">中国西电</span>
-            <span class="holding-code">601179</span>
-          </div>
-          <div class="holding-items">
-            <div class="item">
-              <span class="item-name">中国西电</span>
-              <span class="item-price">16.30</span>
-              <span class="item-chg down">-1.45%</span>
-            </div>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-red"></span> 主力资金净流出电网设备板块</li>
-                <li><span class="dot-red"></span> 市场风格偏科技成长，传统基建承压</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>短线承压，建议减仓至3%以下，待企稳后回补。保留底仓（电网投资是国家战略）。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 创新药 -->
-        <div class="holding-card signal-yellow" data-signal="yellow">
-          <div class="holding-header">
-            <span class="holding-tag tag-yellow">逢低布局</span>
-            <span class="holding-name">创新药</span>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-red"></span> 主力资金净流出医药板块</li>
-                <li><span class="dot-yellow"></span> 港股回A潮：AI与生物医药龙头引领"H to A"</li>
-                <li><span class="dot-green"></span> 6月5日中欧中医药论坛举办</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>长期逻辑（老龄化+出海）不变，建议逢低分批布局创新药龙头。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 航天 -->
-        <div class="holding-card signal-green" data-signal="green">
-          <div class="holding-header">
-            <span class="holding-tag">关注</span>
-            <span class="holding-name">航天</span>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> 龙芯处理器首次用于长征火箭控制系统</li>
-                <li><span class="dot-green"></span> SpaceX最快6月12日上市，估值1.75万亿美元</li>
-                <li><span class="dot-green"></span> 6月10-14日柏林航空航天展</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>短期催化密集，建议关注。商业航天+军工双轮驱动，板块有望活跃。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 机器人 -->
-        <div class="holding-card signal-green" data-signal="green">
-          <div class="holding-header">
-            <span class="holding-tag">重点跟踪</span>
-            <span class="holding-name">机器人</span>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> 英伟达加持，宇树科技"闪电"提交IPO注册</li>
-                <li><span class="dot-green"></span> 6月5日中国国际机器人高峰论坛</li>
-                <li><span class="dot-green"></span> 6月27-29日亚洲机器人大会</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>密集催化期，建议重点跟踪。关注与英伟达合作的机器人产业链标的。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- AI应用 -->
-        <div class="holding-card signal-green" data-signal="green">
-          <div class="holding-header">
-            <span class="holding-tag">重点关注</span>
-            <span class="holding-name">AI 应用</span>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> OpenAI发布"AI上岗"发布会</li>
-                <li><span class="dot-green"></span> 字节跳动AI Agent 3.0上线</li>
-                <li><span class="dot-green"></span> 微软全面押注智能体时代</li>
-                <li><span class="dot-green"></span> 特朗普签署人工智能行政令</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>今日催化最强，三巨头同日发布AI产品，AI Agent商业化加速落地。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 核聚变/核能 -->
-        <div class="holding-card signal-green" data-signal="green">
-          <div class="holding-header">
-            <span class="holding-tag">逢低配置</span>
-            <span class="holding-name">核聚变/核能</span>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> 美国浓缩铀工厂扩建，AI"抢电"催化核能复苏</li>
-                <li><span class="dot-green"></span> 可控核聚变被列为No.1潜力题材</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>长期战略方向，AI算力耗电为核电带来新增量。建议逢低配置核能ETF或龙头。</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 云计算 -->
-        <div class="holding-card signal-green" data-signal="green">
-          <div class="holding-header">
-            <span class="holding-tag">持续看好</span>
-            <span class="holding-name">云计算</span>
-          </div>
-          <div class="holding-detail">
-            <div class="detail-catalyst">
-              <span class="detail-label">催化因素</span>
-              <ul>
-                <li><span class="dot-green"></span> 腾讯云下调DeepSeek-V4模型价格</li>
-                <li><span class="dot-green"></span> AI算力需求全面爆发，光模块超级景气</li>
-                <li><span class="dot-green"></span> 字节AI Agent 3.0上线，云基础设施需求增加</li>
-              </ul>
-            </div>
-            <div class="detail-advice">
-              <span class="advice-label">建议</span>
-              <p>受益于AI算力需求暴增，持续看好。腾讯云降价推动AI应用普及。</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 

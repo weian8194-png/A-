@@ -499,38 +499,112 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---- 持仓赛道联动 ----
-  function syncHoldingCards() {
-    const holdingGrid = document.getElementById('holdingGrid');
-    if (!holdingGrid) return;
+  // ---- 赛道分析: 持仓分组 + 关注列表 ----
+  const SECTOR_MAP = {
+    '601899': '有色金属', '603993': '有色金属', '000975': '有色金属',
+    '601872': '航运物流', '600989': '能源化工', '601179': '电网设备',
+    '159842': '券商', '588000': '科创板',
+    '000636': 'MLCC电子', '300394': '光通信', '300502': '光通信', '300308': '光通信'
+  };
+  function getSector(code) { return SECTOR_MAP[code] || '其他'; }
 
-    const heldCodes = new Set(portfolio.map(s => s.code));
-    const heldMap = {};
-    portfolio.forEach(s => {
-      heldMap[s.code] = { name: s.name, qty: s.qty, code: s.code };
-    });
+  let watchlist = JSON.parse(localStorage.getItem('aStockWatchlist') || '[]');
+  function saveWatchlist() { localStorage.setItem('aStockWatchlist', JSON.stringify(watchlist)); }
 
-    holdingGrid.querySelectorAll('.holding-card').forEach(card => {
-      // Remove existing badge
-      const oldBadge = card.querySelector('.held-badge');
-      if (oldBadge) oldBadge.remove();
-
-      // Check if any item in this card matches portfolio
-      const itemCodes = card.querySelectorAll('.item-code');
-      let hasHold = false;
-      itemCodes.forEach(el => {
-        const code = el.textContent.trim();
-        if (heldCodes.has(code)) hasHold = true;
+  function renderSectorAnalysis() {
+    const holdCtn = document.getElementById('sectorHoldingsContent');
+    if (!holdCtn) return;
+    if (portfolio.length === 0) {
+      holdCtn.innerHTML = '<div class=\"sector-empty\">暂无持仓数据，请先在「持股收益」中添加</div>';
+    } else {
+      const groups = {};
+      portfolio.forEach(stock => {
+        const sec = getSector(stock.code);
+        if (!groups[sec]) groups[sec] = [];
+        const curPrice = getCurrentPrice(stock.code);
+        const pl = curPrice > 0 ? (curPrice - stock.price) / stock.price * 100 : 0;
+        groups[sec].push({ ...stock, curPrice, pl });
       });
-
-      if (hasHold) {
-        const badge = document.createElement('span');
-        badge.className = 'held-badge';
-        badge.textContent = '已持仓';
-        card.querySelector('.holding-header')?.appendChild(badge);
-      }
-    });
+      holdCtn.innerHTML = Object.entries(groups).map(([sector, stocks]) => `
+        <div class=\"sector-group\" style=\"border-left-color: ${stocks.some(s => s.pl >= 0) ? 'var(--rose)' : 'var(--emerald)'}\">
+          <div class=\"sector-group-header\">
+            <span class=\"sector-group-name\">${sector}</span>
+            <span class=\"sector-group-count\">${stocks.length} 只</span>
+          </div>
+          <div style=\"display:flex;flex-direction:column;gap:4px\">
+            ${stocks.map(s => {
+              const plCls = s.pl >= 0 ? 'up' : 'down';
+              return '<div style=\"display:flex;justify-content:space-between;font-size:13px;padding:2px 0\">' +
+                '<span style=\"color:var(--text-primary);font-weight:500\">' + s.name + ' <span style=\"font-size:11px;color:var(--text-muted)\">' + s.code + '</span></span>' +
+                '<span style=\"font-family:monospace;font-variant-numeric:tabular-nums\">' +
+                '<span>' + (s.curPrice > 0 ? '¥' + s.curPrice.toFixed(2) : '--') + '</span>' +
+                '<span class=\"' + plCls + '\" style=\"margin-left:12px\">' + (s.pl >= 0 ? '+' : '') + s.pl.toFixed(2) + '%</span>' +
+                '</span></div>';
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+    renderWatchlist();
   }
+
+  function renderWatchlist() {
+    const ctn = document.getElementById('watchlistContent');
+    if (!ctn) return;
+    if (watchlist.length === 0) {
+      ctn.innerHTML = '<div class=\"sector-empty\">暂无关注标的，请添加</div>';
+      return;
+    }
+    const today = new Date().toISOString().slice(0, 10);
+    ctn.innerHTML = watchlist.map((w, i) => {
+      const curPrice = getCurrentPrice(w.code);
+      const isNew = w.addedDate === today;
+      return '<div class=\"sector-group\" style=\"border-left-color: var(--text-muted)\">' +
+        '<div class=\"sector-group-header\">' +
+        '<span class=\"sector-group-name\">' + w.name + ' <span style=\"font-size:11px;color:var(--text-muted)\">' + w.code + '</span></span>' +
+        '<span class=\"sector-group-count\">' + (isNew ? '明日更新' : '关注中') + '</span>' +
+        '<button class=\"watch-btn\" style=\"font-size:11px;padding:2px 8px\" onclick=\"removeWatch(' + i + ')\">删除</button>' +
+        '</div>' +
+        '<div style=\"font-size:13px;color:var(--text-muted)\">' +
+        '当前价: <span style=\"font-family:monospace;color:var(--text-primary)\">' + (curPrice > 0 ? '¥' + curPrice.toFixed(2) : '等待更新') + '</span>' +
+        (!isNew && curPrice > 0 ? '<span style=\"margin-left:12px;font-family:monospace\">添加日: ' + w.addedDate + '</span>' : '') +
+        '</div></div>';
+    }).join('');
+  }
+
+  window.removeWatch = function(i) {
+    watchlist.splice(i, 1);
+    saveWatchlist();
+    renderSectorAnalysis();
+  };
+
+  // Add watch
+  document.getElementById('addWatchBtn')?.addEventListener('click', () => {
+    const code = document.getElementById('watchCode').value.trim();
+    const name = document.getElementById('watchName').value.trim();
+    if (!code || !name) { alert('请输入代码和名称'); return; }
+    watchlist.push({ code, name, addedDate: new Date().toISOString().slice(0, 10) });
+    saveWatchlist();
+    document.getElementById('watchCode').value = '';
+    document.getElementById('watchName').value = '';
+    renderSectorAnalysis();
+  });
+
+  // Tab switch
+  document.querySelectorAll('.sector-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.sector-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const t = tab.dataset.tab;
+      document.getElementById('holdingsPanel').style.display = t === 'holdings' ? '' : 'none';
+      document.getElementById('watchPanel').style.display = t === 'watch' ? '' : 'none';
+    });
+  });
+
+  renderSectorAnalysis();
+
+  // Call after portfolio changes
+  function syncHoldingCards() { renderSectorAnalysis(); }
 
   // ==================================================================
   // 4. ANALYSIS: Canvas 饼图 (板块配置)
@@ -864,6 +938,15 @@ document.addEventListener('DOMContentLoaded', () => {
   updateHeaderDate();
   setInterval(updateHeaderDate, 60000);
 
+  // ---- Unified refresh: 指数 + 持仓 ----
+  async function refreshAll() {
+    await fetchAndRenderIndexes();
+    if (portfolio.length > 0) {
+      await refreshAllQuotes();
+    }
+    renderSectorAnalysis();
+  }
+
   // ---- Scheduled refresh: 开盘 9:30, 午盘 11:30, 收盘 15:00 ----
   function checkSchedule() {
     const now = new Date();
@@ -884,7 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (minutesSince < 2) return;
     }
 
-    fetchAndRenderIndexes();
+    refreshAll();
   }
 
   // Check every 30 seconds
@@ -895,9 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==================================================================
   renderPortfolio();
   renderEventTimeline();
-
-  // Fetch indexes on page load
-  fetchAndRenderIndexes();
+  refreshAll();
 
   // ---- 刷新行情按钮 ----
   document.getElementById('refreshQuoteBtn')?.addEventListener('click', async () => {

@@ -835,7 +835,96 @@ body {
 .bar-fill.down { background: var(--red); }
 
 /* ====================================
-   💼 持仓赛道分析 Grid
+   赛道分析（动态：持仓 + 关注）
+   ==================================== */
+.sector-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 3px;
+}
+.sector-tab {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sector-tab.active { background: rgba(68,138,255,0.1); color: var(--blue); }
+.sector-tab:hover { color: var(--text-primary); }
+
+.sector-panel { display: none; }
+.sector-panel.active { display: block; }
+
+.sector-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.watch-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.watch-input {
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 13px;
+  outline: none;
+}
+.watch-input:focus { border-color: var(--blue); }
+.watch-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.watch-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); }
+.watch-btn.primary { border-color: var(--blue); color: var(--blue); background: rgba(68,138,255,0.08); }
+
+.sector-group {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border-left: 2px solid var(--blue);
+}
+.sector-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.sector-group-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.sector-group-count {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ====================================
+   💼 持仓赛道分析 Grid (旧版，保留兼容)
    ==================================== */
 .holding-grid {
   display: grid;

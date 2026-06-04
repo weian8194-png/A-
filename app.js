@@ -193,21 +193,46 @@ document.addEventListener('DOMContentLoaded', () => {
     if (unique.length === 0) return;
     try {
       isFetching = true;
-      const resp = await fetch(`/api/quote?codes=${unique.join(',')}&t=${Date.now()}`);
-      const json = await resp.json();
-      if (json.success && json.data) {
-        Object.entries(json.data).forEach(([code, info]) => {
+
+      // 先试本地代理
+      try {
+        const resp = await fetch(`/api/quote?codes=${unique.join(',')}&t=${Date.now()}`);
+        const json = await resp.json();
+        if (json.success && json.data && Object.keys(json.data).length > 0) {
+          Object.entries(json.data).forEach(([code, info]) => {
+            priceCache[code] = { price: info.price, change: info.changePercent, name: info.name, time: info.time };
+          });
+          lastFetchTime = Date.now();
+          return;
+        }
+      } catch {}
+
+      // 降级: CORS代理直连腾讯API
+      const tcCodes = unique.map(c => {
+        if (c.startsWith('6') || c.startsWith('9')) return 'sh' + c;
+        return 'sz' + c;
+      }).join(',');
+      const url = `http://qt.gtimg.cn/q=${tcCodes}`;
+      const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
+      const raw = await resp.text();
+      raw.split('\n').forEach(line => {
+        const m = line.match(/v_\w+="([^"]+)"/);
+        if (!m) return;
+        const f = m[1].split('~');
+        const isIdx = f.length < 20;
+        const code = f[2];
+        if (code && f[3]) {
           priceCache[code] = {
-            price: info.price,
-            change: info.changePercent,
-            name: info.name,
-            time: info.time
+            price: parseFloat(f[3]) || 0,
+            change: parseFloat(f[isIdx ? 5 : 32]) || 0,
+            name: f[1],
+            time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
           };
-        });
-        lastFetchTime = Date.now();
-      }
+        }
+      });
+      lastFetchTime = Date.now();
     } catch (err) {
-      console.warn('行情API请求失败，使用缓存数据', err);
+      console.warn('行情API请求失败，使用静态数据');
     } finally {
       isFetching = false;
     }
@@ -736,62 +761,91 @@ document.addEventListener('DOMContentLoaded', () => {
   // 7. INDEX CARDS LIVE UPDATE (开盘/午盘/收盘 刷新)
   // ==================================================================
   const INDEX_CODES = ['sh000001', 'sz399001', 'sz399006', 'sh000688', 'sh000016'];
+  const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
   let lastIndexRefresh = null;
 
-  async function fetchAndRenderIndexes() {
+  /** 直接调用腾讯API（带CORS代理降级） */
+  async function fetchIndexRaw() {
+    const tcCodes = 's_sh000001,s_sz399001,s_sz399006,s_sh000688,s_sh000016';
+    const url = `http://qt.gtimg.cn/q=${tcCodes}`;
+
+    // 先试本地代理
     try {
       const resp = await fetch(`/api/quote?codes=000001,399001,399006,000688,000016&t=${Date.now()}`);
       const json = await resp.json();
-      if (!json.success) return;
+      if (json.success && Object.keys(json.data).length > 0) return json.data;
+    } catch {}
 
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('indexTime').textContent = timeStr;
-      document.getElementById('lastUpdateBadge').textContent = '已刷新';
-      lastIndexRefresh = now;
-
-      const indexMap = {
-        '000001': '上证指数', '399001': '深证成指', '399006': '创业板指',
-        '000688': '科创50', '000016': '上证50'
-      };
-
-      document.querySelectorAll('.index-gloss').forEach(card => {
-        const idx = card.dataset.index;
-        if (!idx) return;
-        const code = idx.replace(/^(sh|sz)/, '');
-        const data = json.data[code];
-        if (!data) return;
-
-        const price = data.price;
-        const chg = data.changePercent || 0;
-        const isUp = chg >= 0;
-        card.dataset.movement = isUp ? 'up' : 'down';
-
-        const priceEl = card.querySelector('.gloss-price');
-        const pointsEl = card.querySelector('.gloss-points');
-        const pctEl = card.querySelector('.gloss-pct');
-
-        if (priceEl) {
-          priceEl.textContent = price.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-          priceEl.className = `gloss-price ${isUp ? 'up' : 'down'}`;
+    // 降级: CORS代理直连腾讯API
+    try {
+      const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
+      const raw = await resp.text();
+      const result = {};
+      raw.split('\n').forEach(line => {
+        const m = line.match(/v_s_\w+="([^"]+)"/);
+        if (!m) return;
+        const f = m[1].split('~');
+        const code = f[2];
+        if (code) {
+          result[code] = {
+            code, name: f[1],
+            price: parseFloat(f[3]) || 0,
+            change: parseFloat(f[4]) || 0,
+            changePercent: parseFloat(f[5]) || 0,
+          };
         }
-        if (pointsEl) {
-          pointsEl.textContent = `${isUp ? '+' : ''}${data.change?.toFixed(2) || chg.toFixed(2)}`;
-          pointsEl.className = `gloss-points ${isUp ? 'up' : 'down'}`;
-        }
-        if (pctEl) {
-          pctEl.textContent = `${isUp ? '+' : ''}${chg.toFixed(2)}%`;
-          pctEl.className = `gloss-pct ${isUp ? 'up' : 'down'}`;
-        }
-
-        const changeEl = card.querySelector('.gloss-change');
-        if (changeEl) changeEl.className = `gloss-change ${isUp ? 'up' : 'down'}`;
       });
-
-    } catch (err) {
-      document.getElementById('lastUpdateBadge').textContent = '静态数据';
-      console.warn('Index refresh failed (expected on GitHub Pages):', err.message);
+      return result;
+    } catch {
+      return null;
     }
+  }
+
+  async function fetchAndRenderIndexes() {
+    const data = await fetchIndexRaw();
+    if (!data) {
+      document.getElementById('lastUpdateBadge').textContent = '离线';
+      return;
+    }
+
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+    document.getElementById('indexTime').textContent = timeStr;
+    document.getElementById('lastUpdateBadge').textContent = '已刷新';
+    lastIndexRefresh = now;
+
+    document.querySelectorAll('.index-gloss').forEach(card => {
+      const idx = card.dataset.index;
+      if (!idx) return;
+      const code = idx.replace(/^(sh|sz)/, '');
+      const item = data[code];
+      if (!item) return;
+
+      const price = item.price;
+      const chg = item.changePercent || 0;
+      const isUp = chg >= 0;
+      card.dataset.movement = isUp ? 'up' : 'down';
+
+      const priceEl = card.querySelector('.gloss-price');
+      const pointsEl = card.querySelector('.gloss-points');
+      const pctEl = card.querySelector('.gloss-pct');
+
+      if (priceEl) {
+        priceEl.textContent = price.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        priceEl.className = `gloss-price ${isUp ? 'up' : 'down'}`;
+      }
+      if (pointsEl) {
+        pointsEl.textContent = `${isUp ? '+' : ''}${(item.change || chg).toFixed(2)}`;
+        pointsEl.className = `gloss-points ${isUp ? 'up' : 'down'}`;
+      }
+      if (pctEl) {
+        pctEl.textContent = `${isUp ? '+' : ''}${chg.toFixed(2)}%`;
+        pctEl.className = `gloss-pct ${isUp ? 'up' : 'down'}`;
+      }
+
+      const changeEl = card.querySelector('.gloss-change');
+      if (changeEl) changeEl.className = `gloss-change ${isUp ? 'up' : 'down'}`;
+    });
   }
 
   // ---- Dynamic header date ----
